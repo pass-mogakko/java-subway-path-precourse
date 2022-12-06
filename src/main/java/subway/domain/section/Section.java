@@ -35,4 +35,12 @@ public class Section {
     public int getTime() {
         return time;
     }
+
+    public boolean isSameSrcStation(String srcStationName) {
+        return this.srcStationName == srcStationName;
+    }
+
+    public boolean isSameDstStation(String dstStationName) {
+        return this.dstStationName == dstStationName;
+    }
 }
