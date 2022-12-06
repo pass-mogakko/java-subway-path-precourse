@@ -1,6 +1,7 @@
 package subway.controller;
 
 import subway.constant.ErrorMessage;
+import subway.domain.optimum.OptimumPath;
 import subway.domain.path.PathCriterion;
 import subway.domain.station.StationRepository;
 import subway.view.InputView;
@@ -43,6 +44,8 @@ public class PathController {
             String departureStation = readDepartureStation();
             String arrivalStation = readArrivalStation();
             validateStations(departureStation, arrivalStation);
+            List<String> optimumPath = OptimumPath.getShortestDistance(departureStation, arrivalStation);
+            printOptimumPath(optimumPath);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             run();
@@ -54,10 +57,16 @@ public class PathController {
             String departureStation = readDepartureStation();
             String arrivalStation = readArrivalStation();
             validateStations(departureStation, arrivalStation);
+            List<String> optimumPath = OptimumPath.getMinimumTime(departureStation, arrivalStation);
+            printOptimumPath(optimumPath);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             run();
         }
+    }
+
+    private static void printOptimumPath(List<String> optimumPath){
+        System.out.println(optimumPath);
     }
 
     private static String readDepartureStation() {

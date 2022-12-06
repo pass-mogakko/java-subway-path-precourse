@@ -7,6 +7,7 @@ import subway.view.OutputView;
 import java.util.List;
 
 public class MainController {
+
     public static void viewMain() {
         printMainView();
         final MainFunction function = readFunction();
@@ -15,7 +16,7 @@ public class MainController {
 
     private static void runMain(MainFunction function) {
         if(MainFunction.isSearchRoute(function)){
-
+            PathController.run();
         }
     }
 

@@ -42,7 +42,7 @@ public enum PathCriterion {
 
     public static List<String> getFunctions() {
         List<String> functions = new ArrayList<>();
-        for (MainFunction function : MainFunction.values()) {
+        for (PathCriterion function : PathCriterion.values()) {
             functions.add(function.toString());
         }
         return functions;
