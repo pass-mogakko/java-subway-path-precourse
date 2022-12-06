@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedMultigraph;
 import subway.constant.ErrorMessage;
 import subway.domain.DummyData;
-import subway.domain.station.StationRepository;
 
 public class SectionRepository {
 
@@ -50,11 +48,13 @@ public class SectionRepository {
     }
 
     public static List<String> findShortestPathVertexList(String srcStation, String dstStation) {
-        return dijkstraShortestPath.getPath(srcStation, dstStation).getVertexList();
+        return dijkstraShortestPath.getPath(srcStation, dstStation)
+                .getVertexList();
     }
 
     public static int findShortestPathDistance(String srcStation, String dstStation) {
-        return (int)dijkstraShortestPath.getPath(srcStation, dstStation).getWeight();
+        return (int) dijkstraShortestPath.getPath(srcStation, dstStation)
+                .getWeight();
     }
 
     public static int findShortestPathTime(List<String> stations) {
@@ -75,5 +75,28 @@ public class SectionRepository {
                 .filter(section -> section.isSameSrcStation(srcStationName) && section.isSameDstStation(dstStationName))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_SECTION));
+    }
+
+    public static List<String> findMinimumTimeVertexList(String srcStation, String dstStation) {
+        return dijkstraMinimumTime.getPath(srcStation, dstStation)
+                .getVertexList();
+    }
+
+    public static int findMinimumTime(String srcStation, String dstStation) {
+        return (int) dijkstraMinimumTime.getPath(srcStation, dstStation)
+                .getWeight();
+    }
+
+    public static int findMinimumTimeDistance(List<String> stations) {
+        return IntStream.range(0, stations.size() - 1)
+                .map(stationIndex -> findMinimumTimeDistance(stations, stationIndex))
+                .sum();
+    }
+
+    public static int findMinimumTimeDistance(List<String> stations, int stationIndex) {
+        String srcStationName = stations.get(stationIndex);
+        String dstStationName = stations.get(stationIndex + 1);
+        Section section = findSectionByStationName(srcStationName, dstStationName);
+        return section.getDistance();
     }
 }

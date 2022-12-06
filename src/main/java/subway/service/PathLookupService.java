@@ -12,4 +12,11 @@ public class PathLookupService {
         int time = SectionRepository.findShortestPathTime(stations);
         return new PathDto(distance, time, stations);
     }
+
+    public PathDto findMinimumTime(String srcStation, String dstStation) {
+        List<String> stations = SectionRepository.findMinimumTimeVertexList(srcStation, dstStation);
+        int time = SectionRepository.findMinimumTime(srcStation, dstStation);
+        int distance = SectionRepository.findMinimumTimeDistance(stations);
+        return new PathDto(distance, time, stations);
+    }
 }

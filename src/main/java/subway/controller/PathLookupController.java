@@ -38,6 +38,7 @@ public class PathLookupController {
     private void findMinimumTimePath() {
         String srcStation = InputView.requestSrcStation();
         String dstStation = InputView.requestDstStation();
-
+        PathDto pathDto = pathLookupService.findMinimumTime(srcStation, dstStation);
+        OutputView.printPathResult(pathDto);
     }
 }
