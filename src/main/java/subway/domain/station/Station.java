@@ -1,10 +1,10 @@
-package subway.domain;
+package subway.domain.station;
 
-public class Line {
+public class Station {
 
     private String name;
 
-    public Line(String name) {
+    public Station(String name) {
         this.name = name;
     }
 

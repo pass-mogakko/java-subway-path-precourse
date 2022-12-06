@@ -1,13 +1,19 @@
-package subway.domain;
+package subway.domain.line;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import subway.domain.DummyData;
 
 public class LineRepository {
 
     private static final List<Line> lines = new ArrayList<>();
+
+    static {
+        insertDummyData();
+    }
 
     public static List<Line> lines() {
         return Collections.unmodifiableList(lines);
@@ -24,4 +30,14 @@ public class LineRepository {
     public static void deleteAll() {
         lines.clear();
     }
+
+    private static void insertDummyData() {
+        Arrays.stream(DummyData.values())
+                .map(dummyData -> dummyData.getSection())
+                .map(section -> section.getLineName())
+                .distinct()
+                .forEach(lineName -> lines.add(new Line(lineName)));
+    }
+
+
 }
