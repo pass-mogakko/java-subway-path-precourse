@@ -25,14 +25,14 @@ public class PathLookupController {
             return;
         }
         Runnable nextAction = selectionNavigator.get(pathLookupSelection);
-        //        Utils.exceptionHandlingRepeat(nextAction, OutputView::printErrorMessage);
+        Utils.exceptionHandlingRepeat(nextAction, OutputView::printErrorMessage);
     }
 
     private void findShortestPath() {
         String srcStation = InputView.requestSrcStation();
         String dstStation = InputView.requestDstStation();
         PathDto pathDto = pathLookupService.findShortestPath(srcStation, dstStation);
-
+        OutputView.printPathResult(pathDto);
     }
 
     private void findMinimumTimePath() {

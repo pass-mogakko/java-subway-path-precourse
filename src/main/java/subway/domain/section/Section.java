@@ -37,10 +37,10 @@ public class Section {
     }
 
     public boolean isSameSrcStation(String srcStationName) {
-        return this.srcStationName == srcStationName;
+        return this.srcStationName.equals(srcStationName);
     }
 
     public boolean isSameDstStation(String dstStationName) {
-        return this.dstStationName == dstStationName;
+        return this.dstStationName.equals(dstStationName);
     }
 }

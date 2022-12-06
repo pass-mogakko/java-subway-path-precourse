@@ -10,18 +10,21 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedMultigraph;
 import subway.constant.ErrorMessage;
 import subway.domain.DummyData;
+import subway.domain.station.StationRepository;
 
 public class SectionRepository {
 
     private static final List<Section> sections = new ArrayList<>();
     private static final WeightedMultigraph<String, DefaultWeightedEdge> shortestPathGraph = new WeightedMultigraph(DefaultWeightedEdge.class);
     private static final WeightedMultigraph<String, DefaultWeightedEdge> minimumTimeGraph = new WeightedMultigraph(DefaultWeightedEdge.class);
-    private static final DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(shortestPathGraph);
-    private static final DijkstraShortestPath dijkstraMinimumTime = new DijkstraShortestPath(minimumTimeGraph);
+    private static DijkstraShortestPath dijkstraShortestPath;
+    private static DijkstraShortestPath dijkstraMinimumTime;
 
     static {
         insertDummyData();
         computePath();
+        dijkstraShortestPath = new DijkstraShortestPath(shortestPathGraph);
+        dijkstraMinimumTime = new DijkstraShortestPath(minimumTimeGraph);
     }
 
     private static void insertDummyData() {
@@ -38,12 +41,20 @@ public class SectionRepository {
         String dstStationName = section.getDstStationName();
         int distance = section.getDistance();
         int time = section.getTime();
+        shortestPathGraph.addVertex(srcStationName);
+        shortestPathGraph.addVertex(dstStationName);
+        minimumTimeGraph.addVertex(srcStationName);
+        minimumTimeGraph.addVertex(dstStationName);
         shortestPathGraph.setEdgeWeight(shortestPathGraph.addEdge(srcStationName, dstStationName), distance);
         minimumTimeGraph.setEdgeWeight(minimumTimeGraph.addEdge(srcStationName, dstStationName), time);
     }
 
-    public static GraphPath findShortestPath(String srcStation, String dstStation) {
-        return dijkstraShortestPath.getPath(srcStation, dstStation);
+    public static List<String> findShortestPathVertexList(String srcStation, String dstStation) {
+        return dijkstraShortestPath.getPath(srcStation, dstStation).getVertexList();
+    }
+
+    public static int findShortestPathDistance(String srcStation, String dstStation) {
+        return (int)dijkstraShortestPath.getPath(srcStation, dstStation).getWeight();
     }
 
     public static int findShortestPathTime(List<String> stations) {
